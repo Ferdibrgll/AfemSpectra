@@ -1,155 +1,81 @@
-<div align="center">
+<p align="center">
+  <img src="docs/banner.png" alt="AfemSpectra" width="100%" />
+</p>
 
-<img src="docs/banner.png" alt="AfemSpectra" width="100%" />
+# AfemSpectra
 
-**Alan adını gir, dışarıdan görünen güvenlik yüzeyini saniyeler içinde gör.**
+Alan adını gir, sitenin dışarıdan görünen güvenlik ayarlarını tek raporda incele. AfemSpectra tarayıcıda çalışır ve hesap açmadan kullanılabilir.
 
-![Lisans: MIT](https://img.shields.io/badge/lisans-MIT-3b82f6)
-![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-f38020)
-![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6)
-![Tarama türü](https://img.shields.io/badge/tarama-pasif-22c55e)
+**[AfemSpectra’yı aç →](https://afemspectra.ferdibirgul.workers.dev/)**
 
-</div>
+<p align="center">
+  <img src="docs/screenshots/01-ana-sayfa.png" alt="AfemSpectra ana sayfa" width="90%" />
+</p>
 
-AfemSpectra, Cloudflare Workers üzerinde çalışan, tamamen **pasif** bir web güvenlik kontrol aracıdır. Bir sitenin dışarıdan görünen "spektrumunu" tek raporda toplar: güvenlik başlıkları, cookie bayrakları, TLS, `security.txt`/`robots.txt`, DNS (SPF, DMARC, CAA), alt alan adları ve teknoloji izleri. Sonuç 0-100 arası bir skor ve görsel bir raporla sunulur.
+## Nasıl kullanılır?
 
-> **Uyarı:** Yalnızca sahibi olduğunuz veya yazılı izin aldığınız alan adlarını tarayın.
+1. AfemSpectra’da kendi alan adını veya taramak için yazılı izin aldığın alan adını gir.
+2. **Tara** düğmesine bas. Kontroller tamamlandığında sitenin puanı ve bulgular aynı ekranda görünür.
+3. Önce yüksek önem dereceli bulguları incele. Önerilen değişiklikleri kendi sitende uyguladıktan sonra yeniden tarayarak sonucu karşılaştır.
 
-<div align="center">
-<img src="docs/screenshots/01-ana-sayfa.png" alt="AfemSpectra ana sayfa" width="90%" />
-</div>
+<p align="center">
+  <img src="docs/screenshots/03-uc-adim.png" alt="Üç adımda rapor" width="90%" />
+</p>
 
-## Neler yapar
+## Siten hakkında neler görebilirsin?
 
-- **Güvenlik başlıkları:** HSTS, CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy ve cookie bayrakları
-- **TLS ve HTTPS:** geçerli sertifika ve HTTP → HTTPS yönlendirmesi
-- **DNS ve e-posta:** SPF, DMARC, CAA kayıtları
-- **Alt alan adları:** sertifika şeffaflık kayıtlarından (crt.sh)
-- **Standart dosyalar:** `security.txt`, `robots.txt`
-- **Teknoloji izleri:** sunucu, CDN, framework ve sürüm sızıntıları
+Ana sayfadaki etkileşimli haritada her noktayı seçerek ilgili kontrolün neyi incelediğini ve neden önemli olduğunu görebilirsin.
 
-### Saldırı yüzeyi haritası
+| Kontrol | Raporda görebileceklerin |
+| --- | --- |
+| Güvenlik başlıkları ve çerezler | Tarayıcıya gönderilen güvenlik başlıkları ve yanıtta görülen çerezlerin güvenlik bayrakları |
+| TLS ve HTTPS | HTTPS bağlantısının kurulup kurulamadığı ve HTTP ziyaretçilerinin HTTPS’ye yönlendirilip yönlendirilmediği |
+| DNS ve e-posta | Alan adının SPF, DMARC ve CAA kayıtları |
+| Alt alan adları | Herkese açık sertifika şeffaflık kayıtlarında görünen alt alan adları |
+| Standart dosyalar | Güvenlik bildirimleri için `security.txt` ve arama motorları için `robots.txt` dosyalarının varlığı |
+| Teknoloji izleri | Sitenin yanıtlarında görünen sunucu, CDN, yazılım çatısı ve sürüm bilgileri |
 
-Alan adının etrafındaki altı nokta etkileşimli: her birinde ne kontrol edildiği ve saldırganın neden baktığı anlatılır.
+<p align="center">
+  <img src="docs/screenshots/02-saldiri-yuzeyi.png" alt="Saldırı yüzeyi haritası" width="90%" />
+</p>
 
-<div align="center">
-<img src="docs/screenshots/02-saldiri-yuzeyi.png" alt="Saldırı yüzeyi haritası" width="90%" />
-</div>
+## Rapor nasıl okunur?
 
-### Üç adımda rapor
+**Skor**, kontrol edilen ayarların 100 üzerinden özetidir. Her yüksek önem dereceli bulgu puanı 25, orta dereceli bulgu 10, düşük dereceli bulgu 4 azaltır. Radar grafik kategorileri karşılaştırır. Tarama notları, site yanıt vermediğinde veya bir veri kaynağına ulaşılamadığında hangi sonuçların eksik kalabileceğini açıklar.
 
-<div align="center">
-<img src="docs/screenshots/03-uc-adim.png" alt="Üç adımda rapor" width="90%" />
-</div>
+<p align="center">
+  <img src="docs/screenshots/04-rapor.png" alt="Rapor ekranı" width="90%" />
+</p>
 
-## Görsel rapor
+**Bulgular** önem sırasına göre listelenir. Örneğin bir güvenlik başlığı eksikse, bulgunun açıklamasını okuyabilir ve siten `_headers` dosyası kullanıyorsa önerilen ayarı kopyalayıp yapılandırmana uyarlayabilirsin.
 
-Rapor; skor halkası, kategori bazlı radar grafik, önem dağılımı, güvenlik başlıkları haritası, bulunan alt alan adları ve teknolojileri gösterir. JSON indirme ve PDF / yazdır çıktısı vardır.
+<p align="center">
+  <img src="docs/screenshots/05-duzeltme-ve-bulgular.png" alt="Hazır düzeltme kodu ve bulgular" width="90%" />
+</p>
 
-<div align="center">
-<img src="docs/screenshots/04-rapor.png" alt="Rapor ekranı" width="90%" />
-</div>
+Raporu JSON olarak indirebilir, yazdırabilir veya yazdırma ekranından PDF olarak kaydedebilirsin. Mobilde aynı rapor tek sütunda gösterilir.
 
-Eksik başlıklar için kopyalanabilir hazır `_headers` kodu ve önem sırasına göre dizilmiş bulgular da raporun içinde:
+<details>
+<summary>Mobil rapor örneğini göster</summary>
 
-<div align="center">
-<img src="docs/screenshots/05-duzeltme-ve-bulgular.png" alt="Hazır düzeltme kodu ve bulgular" width="90%" />
-</div>
+<p align="center">
+  <img src="docs/screenshots/06-mobil-rapor.png" alt="Mobil rapor görünümü" width="280" />
+</p>
 
-Mobilde de aynı rapor, tek sütunda:
+</details>
 
-<div align="center">
-<img src="docs/screenshots/06-mobil-rapor.png" alt="Mobil rapor görünümü" width="280" />
-</div>
-
-> Görseller örnek verilerle (`ornek.com`) hazırlanmıştır.
-
-## Yapılmayanlar (bilinçli)
-
-Port tarama, brute force, zafiyet sömürme ve benzeri aktif testler yoktur. Araç yalnızca herkese açık bilgileri okur. Pasif tarama tam bir güvenlik testinin (sızma testi) yerini tutmaz.
-
-## Kurulum
-
-```bash
-npm install
-npm run dev      # yerel geliştirme (http://localhost:8787)
-npm run deploy   # Cloudflare'e yayınla (wrangler login gerekir)
-```
-
-## Proje yapısı
-
-```
-afemspectra/
-├─ src/
-│  ├─ index.ts      # Worker: /api/scan, /api/health, rate limit, güvenlik başlıkları
-│  ├─ checks.ts     # pasif kontroller (başlıklar, dosyalar, DNS, alt alanlar)
-│  ├─ guard.ts      # alan adı doğrulama, SSRF koruması, DNS-over-HTTPS
-│  └─ types.ts
-├─ public/          # arayüz (index.html, style.css, app.js, favicon.svg)
-├─ scripts/         # ratelimit-test.mjs
-├─ docs/            # banner, ekran görüntüleri, security.txt örneği
-└─ wrangler.toml
-```
-
-## Uç noktalar
-
-```
-GET /api/scan?domain=ornek.com   # tarama
-GET /api/health                  # durum ve rate limit türü
-```
-
-Tarama yanıtı: `{ domain, score, summary, findings[], subdomains[], technologies[], notes[] }`
-
-`notes` alanı, sonuçların eksik olabileceği durumları (site botları engelliyor, crt.sh yanıt vermedi vb.) açıklar.
-
-## Skor nasıl hesaplanır
-
-100 puandan başlanır. Yüksek riskli her bulgu 25, orta riskli 10, düşük riskli 4 puan düşürür. Bilgi ve geçen kontroller puanı etkilemez.
-
-## Güvenlik önlemleri
-
-- Alan adı doğrulama (regex, IP ve iç ağ uzantıları reddedilir)
-- SSRF koruması: alan adı DoH ile çözülür, özel/loopback IP'ye işaret ediyorsa reddedilir
-- IP başına rate limit (Cloudflare bağlantısı yoksa yerel yedek)
-- Yanıt gövdeleri boyut sınırıyla okunur (CPU ve bellek koruması)
-- Site taramayı engelliyorsa yanlış "eksik" bulgusu üretilmez
-- Arayüzde tüm uzak içerik `textContent` ile yazılır (XSS yok)
-- Statik sayfalarda CSP, HSTS, X-Frame-Options vb. başlıklar
-- Her dış istek için zaman aşımı
-
-## Yayına almadan önce kontrol listesi
-
-1. **Rate limit çalışıyor mu?** `wrangler.toml` içindeki limit `unsafe` bir tanımdır. Yayından sonra:
-   ```bash
-   node scripts/ratelimit-test.mjs https://SENIN-ADRESIN.workers.dev
-   ```
-   İlk 5 istek `200`, sonrakiler `429` dönmeli. `/api/health` yanıtında `rateLimiter` alanı `cloudflare-binding` ise Cloudflare limiti aktiftir, `yerel-yedek` ise yalnızca Worker örneği başına çalışan yedek limit kullanılıyordur. İkinci durumda Cloudflare panelinden bir rate limiting kuralı ekleyin.
-2. **Ücretsiz plan CPU sınırı.** Workers ücretsiz planında istek başına CPU süresi kısıtlıdır. Yanıt okuma boyutları sınırlandırıldı, yine de yayından sonra panelde hata oranına bakın.
-3. **İsim ve marka.** "Spectra" yaygın bir kelimedir. Büyütmeyi düşünüyorsanız alan adı, GitHub ve sosyal medya adını kontrol edin.
-4. **Kendi sitenizi tarayın.** Yayınladığınız adresi aracın kendisiyle tarayıp başlıkların geldiğini doğrulayın.
-5. **`security.txt` ekleyin.** `docs/security.txt.example` dosyasını kendi bilgilerinizle doldurup sitenizde `/.well-known/security.txt` olarak yayınlayın.
-
-## Yol haritası
-
-- Cookie/başlık kontrollerini ek sayfalarda da çalıştırma
-- TLS protokol/şifre seti bilgisi (harici API ile)
-- React/TypeScript/Tailwind arayüzü
+*Ekran görüntüleri `ornek.com` için hazırlanmış örnek verileri gösterir.*
 
 ## Geliştirici
 
-**Ferdi Birgül**  
-*IT & Network Support Specialist | Offensive Security*
+**Ferdi Birgül** · IT & Network Support Specialist | Offensive Security
 
-Ağ altyapısı, sistem yönetimi, teknik destek ve siber güvenlik üzerine çalışan bir bilişim profesyoneliyim. **AfemSpectra** projesini, web güvenliğiyle ilgili temel kontrolleri herkesin anlayabileceği görsel bir raporda birleştirmek ve güvenliğe yönelik farkındalığı artırmak amacıyla geliştirdim.
+Ağ altyapısı, sistem yönetimi ve siber güvenlik alanlarında çalışıyorum. AfemSpectra’yı, bir site sahibinin “Önce hangi ayarı düzeltmeliyim?” sorusuna cevap verebilmesi için geliştirdim. Bu yüzden raporda her bulguyu önem derecesiyle birlikte gösteriyor, eksik güvenlik başlıkları için uygulanabilir ayar örnekleri sunuyorum.
 
-Bu proje, güvenlik bilgilerini yalnızca toplamakla kalmayıp **anlaşılır, izlenebilir ve geliştirilebilir** hale getirme yaklaşımımın bir parçasıdır.
+[Portföy](https://ferdibirgul.com/) · [GitHub](https://github.com/Ferdibrgll) · [LinkedIn](https://www.linkedin.com/in/ferdibirg%C3%BCl)
 
-- 🌐 **Web sitesi / Portföy:** [ferdibirgul.com](https://ferdibirgul.com/)
-- GitHub: [@Ferdibrgll](https://github.com/Ferdibrgll)
-- LinkedIn: [linkedin.com/in/ferdibirgül](https://www.linkedin.com/in/ferdibirg%C3%BCl)
-
-Geri bildirim ve katkılar için issue açabilirsiniz.
+Bir bulgunun hatalı olduğunu düşünüyorsan veya bir önerin varsa [GitHub üzerinden geri bildirim bırakabilirsin](https://github.com/Ferdibrgll/AfemSpectra/issues).
 
 ## Lisans
 
-MIT, bkz. [`LICENSE`](LICENSE).
+[MIT Lisansı](LICENSE)

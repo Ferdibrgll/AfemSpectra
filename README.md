@@ -74,6 +74,7 @@ Ağ altyapısı, sistem yönetimi ve siber güvenlik alanlarında çalışıyoru
 
 [Portföy](https://ferdibirgul.com/) · [GitHub](https://github.com/Ferdibrgll) · [LinkedIn](https://www.linkedin.com/in/ferdibirg%C3%BCl)
 
+
 Bir bulgunun hatalı olduğunu düşünüyorsan veya bir önerin varsa [GitHub üzerinden geri bildirim bırakabilirsin](https://github.com/Ferdibrgll/AfemSpectra/issues).
 
 ## Lisans

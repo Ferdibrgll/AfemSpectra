@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /api/
 
-Sitemap: https://afemspectra.ferdibirgul.workers.dev/sitemap.xml
+Sitemap: https://afemspectra.ferdibirgul.com/sitemap.xml

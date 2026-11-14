@@ -6,7 +6,7 @@
 
 Alan adını gir, sitenin dışarıdan görünen güvenlik ayarlarını tek raporda incele. AfemSpectra tarayıcıda çalışır ve hesap açmadan kullanılabilir.
 
-**[AfemSpectra’yı aç →](https://afemspectra.ferdibirgul.workers.dev/)**
+**[AfemSpectra’yı aç →](https://afemspectra.ferdibirgul.com/)**
 
 <p align="center">
   <img src="docs/screenshots/01-ana-sayfa.png" alt="AfemSpectra ana sayfa" width="90%" />

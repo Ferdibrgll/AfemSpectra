@@ -113,24 +113,40 @@ function withSecurityHeaders(res: Response): Response {
   return out;
 }
 
+async function route(request: Request, env: Env, url: URL): Promise<Response> {
+  if (url.pathname === "/api/scan" && request.method === "GET") {
+    try {
+      return await handleScan(request, env);
+    } catch {
+      return json({ error: "Tarama sırasında beklenmeyen bir hata oluştu." }, 500);
+    }
+  }
+
+  if (url.pathname === "/api/health") {
+    return json({ ok: true, rateLimiter: env.RATE_LIMITER ? "cloudflare-binding" : "yerel-yedek" });
+  }
+
+  if (url.pathname.startsWith("/api/")) return json({ error: "Bulunamadı" }, 404);
+
+  return withSecurityHeaders(await env.ASSETS.fetch(request));
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-
-    if (url.pathname === "/api/scan" && request.method === "GET") {
-      try {
-        return await handleScan(request, env);
-      } catch {
-        return json({ error: "Tarama sırasında beklenmeyen bir hata oluştu." }, 500);
-      }
+    const preview = url.hostname.endsWith("-afemspectra.ferdibirgul.workers.dev");
+    if (!preview && url.hostname.endsWith(".workers.dev")) {
+      url.protocol = "https:";
+      url.hostname = "afemspectra.ferdibirgul.com";
+      url.port = "";
+      return Response.redirect(url.href, 301);
     }
 
-    if (url.pathname === "/api/health") {
-      return json({ ok: true, rateLimiter: env.RATE_LIMITER ? "cloudflare-binding" : "yerel-yedek" });
-    }
+    const response = await route(request, env, url);
+    if (!preview) return response;
 
-    if (url.pathname.startsWith("/api/")) return json({ error: "Bulunamadı" }, 404);
-
-    return withSecurityHeaders(await env.ASSETS.fetch(request));
+    const result = new Response(response.body, response);
+    result.headers.set("X-Robots-Tag", "noindex");
+    return result;
   },
 };
